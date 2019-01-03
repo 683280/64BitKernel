@@ -30,5 +30,6 @@ typedef s64 usize_t;
 
 #define NULL (void*)0
 #define __align(A)       __attribute__((__aligned__(A)))         //!< Aligns the data A bytes
+//#define __se_align(A) #pragma pack
 #define __interrupt     __attribute__((interrupt))
 #endif //NEWKERNEL_TYPE_H

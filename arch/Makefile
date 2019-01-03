@@ -10,16 +10,16 @@ A_OBJ	=	$(patsubst %.asm,%.ao,$(A_SRCS))
 
 OBJS	=	$(foreach file,$(notdir $(C_OBJ)),build/$(file)) $(foreach file,$(notdir $(A_OBJ)),build/$(file))
 
-CFLAGS	=	-I../inc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -s -std=c99 -fno-stack-protector
+CFLAGS	=	-I../inc -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O2 -mno-sse -mno-sse2 -s -std=c99 -fno-stack-protector
 
 all:link
 
-link: x86_arch.o
+link: $(ARCH)_arch.o
 	@echo -e "\033[32m  \033[1mLD\033[21m    \033[34mx86_arch.o\033[0m"
 	@echo $(LD) -m elf_x86_64 -r -o x86_arch.o $(OBJS)
 	@$(LD) -m elf_x86_64 -r -o x86_arch.o $(OBJS)
 
-x86_arch.o: $(C_OBJ) $(A_OBJ)
+$(ARCH)_arch.o: $(C_OBJ) $(A_OBJ)
 
 $(C_OBJ): %.o: %.c
 	@echo -e "\033[32m  \033[1mCC\033[21m    \033[34m$<\033[0m"

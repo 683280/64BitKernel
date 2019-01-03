@@ -39,7 +39,7 @@ src/arch/$(ARCH)_arch.o:
 	@echo -e "\033[32m  \033[1mBUILD\033[21m    \033[34m $(ARCH)\033[0m"
 	@cd arch; $(MAKE) CC=$(CC) ARCH=$(ARCH)
 
-run:
+qemu:
 	@qemu-system-i386 -cdrom run/myos.iso -m 50m -fda disk.img -boot c
 
 bochs:

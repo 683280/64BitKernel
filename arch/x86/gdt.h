@@ -9,15 +9,25 @@
 
 typedef uint64_t gdt_desc;
 
-struct GDT_LOAD{
-    u16 size;
-    uint64_t address;
+
+
+#pragma pack(1)
+struct TSS{
+    uint32_t b1;
+    uint64_t rsp0;
+    uint64_t rsp1;
+    uint64_t rsp2;
+    uint64_t b2;
+    uint64_t ist1;
+    uint64_t ist2;
+    uint64_t ist3;
+    uint64_t ist4;
+    uint64_t ist6;
+    uint64_t ist7;
+    uint64_t b3;
+    uint32_t b4;
 };
 
-struct GDT_DESC{
-    uint32_t l;
-    uint32_t h;
-};
-
+//#define set_gdt
 void setup_gdt();
 #endif //INC_64BITKERNEL_GDT_H

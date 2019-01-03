@@ -3,7 +3,6 @@
 //
 
 #include "itr/itr.h"
-#include <type.h>
 #include <debug/debug.h>
 #include <debug/symbols.h>
 
@@ -27,6 +26,7 @@ void die(char* fmt,...){
 }
 void do_div_by_zero(){
     kprintf("do_div_by_zero\n");
+    while (1){}
 }
 void do_single_step(){
     kprintf("do_single_step\n");
@@ -45,6 +45,7 @@ void do_bounds(){
 }
 void do_invalid_opcode(){
     kprintf("do_invalid_opcode\n");
+    while (1){}
 }
 void do_coprocessor_not_available(u32 cr2,/* u32 *ebp, */struct pusha_regs regs, struct iret_regs iregs){
     symbol_t * symbol1;

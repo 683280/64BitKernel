@@ -11,10 +11,10 @@ extern pae_page_dir
 extern pae_page_tab
 
 bits 32
-entry_long_mode:
-
+entry_long_mode:    ;准备进入长模式
+        ;检查是否支持cpuid命令
         call check_cupid
-
+        ;检查是否支持长模式
         mov eax, 0x80000000
         cpuid
         cmp eax, 0x80000001
@@ -24,10 +24,11 @@ entry_long_mode:
         cpuid
         test edx, 1 << 29
         jz no_long_mode
-
+        ;支持长模式，开始进入长模式
         jmp real_entry_long_mode
 
-    check_cupid:
+
+    check_cupid: ;test cpu support cpuid command 检查是否支持长模式命令
         pushfd
         pop eax
 
@@ -48,7 +49,7 @@ entry_long_mode:
         jz no_cpuid
         ret
 
-    real_entry_long_mode:
+    real_entry_long_mode: ;cpu support long mode ,entry long mode
         ;setup PAE PAGING
         mov dword [PML4T],pae_dir_ptr_tab + 3
         mov dword [pae_dir_ptr_tab],pae_page_dir + 3
@@ -88,6 +89,7 @@ entry_long_mode:
         jmp GDT64.Code : setup_64
 
         jmp $
+    ;为进入长模式而准备的临时GDT
     GDT64:                           ; Global Descriptor Table (64-bit).
         .Null: equ $ - GDT64         ; The null descriptor.
         dw 0xFFFF                    ; Limit (low).
@@ -114,7 +116,7 @@ entry_long_mode:
         dw $ - GDT64 - 1             ; Limit.
         dq GDT64                     ; Base.
 bits 64
-    setup_64:
+    setup_64:   ;
         ;setup cpu status
         cli
         mov ax,GDT64.Data
@@ -128,11 +130,42 @@ bits 64
         ;mov rax, 0x1F201F201F201F20   ; Set the A-register to 0x1F201F201F201F20.
         ;mov ecx, 500                  ; Set the C-register to 500.
         ;rep stosq                     ; Clear the screen.
+        extern init_x86
+        call init_x86
+
         extern s_kernel_64_entry
         ;jmp to kernel in C
         jmp s_kernel_64_entry
 
 global s_save
 s_save:
+
+        push rax
+        push rbx
+        push rcx
+        push rdx
+
+        push rbp
+        push rdi
+        push rsi
+
+        push r8
+        push r9
+        push r10
+        push r11
+        push r12
+        push r13
+        push r14
+        push r15
+        ;push r16
+
+        mov ds,rax
+        push rax
+        mov es,rax
+        push rax
+        mov fs,rax
+        push rax
+        mov gs,rax
+        push rax
 
 		iret

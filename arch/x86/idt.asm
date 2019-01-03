@@ -51,7 +51,7 @@ errcode:
         dd 0
 ;被0除
 s_div_by_zero:
-        call s_save
+        ;call s_save
         call do_div_by_zero
         ret
 s_single_step:

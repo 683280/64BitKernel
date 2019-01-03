@@ -1,0 +1,28 @@
+重点函数:
+    s_save函数
+    =====x86 CPU 无权限级变化=====
+        EFLAGS
+        CS
+        EIP
+        Error Code(部分中断没有错误代码)
+
+    =====x86 CPU 有权限级变化=====
+        SS
+        ESP
+        EFLAGS
+        CS
+        EIP
+        Error Code(部分中断没有错误代码)
+
+        有权限级变换时，会在TR寄存器中获取TTS，使用TSS中对应权限级的栈选择子和栈指针
+    1.保存当前CPU状态
+        push rax
+        push rbx
+        push rcx
+        push rdx
+
+
+    2.判断是否有权限级变化
+        有:
+        无:
+    3.
